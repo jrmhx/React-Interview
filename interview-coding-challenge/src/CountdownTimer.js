@@ -15,6 +15,12 @@ const CountdownTimer = () => {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
+  // !core part of countdown timer
+  // Side effect
+  // Dependency 
+  // lifecycle -> resource management
+
+  // condition to counting down is isStart===true secondLeft>0
   useEffect(() => {
   if (!isStart) return;
 
@@ -24,14 +30,17 @@ const CountdownTimer = () => {
     return;
   }
 
+  // event loop: try keep the main call stack non blocked
+  // async func -> create timerObj return a uniqueId of timeObj (ptr)
   const timer = setTimeout(() => {
     setSecondLeft(secondLeft - 1);
   }, 1000);
+  // in fact >= 1000ms depends on the event loop
 
-  // clear when unmounted
+  // !clear when unmounted or rerendered
+  // put a cap of resource that is allocated to this component 
   return () => clearTimeout(timer);
-}, [isStart, secondLeft]);
-
+  }, [isStart, secondLeft]);
 
   const handleStart = () => {
     const seconds = parseInt(duration);
@@ -120,7 +129,7 @@ export default CountdownTimer;
 
 
 // General thinking process about designing a class/struct/obj/component/...:
-// single responsibility principle (SRP)
+
 // 1. States -> Mutation? Mutablity? Boundary(public/private? scope? closure?)
 // 1.1 State Mutation -> Side Effect? Hook? ...
 // 2. Behaviour (Functions Method ...)

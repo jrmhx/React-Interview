@@ -7,7 +7,7 @@ const UserProfile = ({ userId }) => {
   const [fetchCount, setFetchCount] = useState(0);
 
   // BUG FIXED: Originally had fetchCount in dependency array [userId, fetchCount] of this useEffect hook
-  // This caused infinite loop: useEffect runs → updates fetchCount → triggers useEffect again → infinite loop
+  // This caused infinite loop: useEffect runs → updates fetchCount(Dep) → triggers useEffect again → infinite loop
   
   // SOLUTION: Removed fetchCount from dependencies 
   // and used functional update setFetchCount(f => f + 1) to meet the lint rules
@@ -18,8 +18,9 @@ const UserProfile = ({ userId }) => {
       try {
         setFetchCount(f => {
           console.log('Fetching user data, count:', f);
-          return f + 1;
+          return f+1;
         });
+        
         const userData = await fetchUserData(userId);
         setUser(userData);
         setLoading(false);

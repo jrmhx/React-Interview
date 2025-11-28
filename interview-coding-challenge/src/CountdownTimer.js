@@ -15,11 +15,9 @@ const CountdownTimer = () => {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
-  // !core part of countdown timer
   // Side effect
   // Dependency 
   // lifecycle -> resource management
-
   // condition to counting down is isStart===true secondLeft>0
   useEffect(() => {
   if (!isStart) return;
@@ -37,7 +35,7 @@ const CountdownTimer = () => {
   }, 1000);
   // in fact >= 1000ms depends on the event loop
 
-  // !clear when unmounted or rerendered
+  // clear when unmounted or rerendered
   // put a cap of resource that is allocated to this component 
   return () => clearTimeout(timer);
   }, [isStart, secondLeft]);
